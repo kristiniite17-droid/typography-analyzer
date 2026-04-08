@@ -4,50 +4,24 @@
 <meta charset="UTF-8">
 <title>Typography Analyzer</title>
 <style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f5f5f5;
-  margin: 0;
-  padding: 0;
-}
-.container {
-  max-width: 800px;
-  margin: auto;
-  background: white;
-  padding: 30px;
-  margin-top: 50px;
-  border-radius: 10px;
-}
-h1 { text-align: center; }
-input[type="text"], input[type="range"] {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-}
-button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  background: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-button:hover { background: #333; }
-#result {
-  margin-top: 20px;
-  padding: 15px;
-  background: #eee;
-  border-radius: 8px;
-}
-#preview { margin-top: 20px; }
+body { font-family: Arial, sans-serif; background: #f5f5f5; margin:0; padding:0; }
+.container { max-width: 800px; margin: auto; background:white; padding:30px; margin-top:50px; border-radius:10px; }
+h1 { text-align:center; }
+input[type="text"], input[type="range"] { width:100%; padding:10px; margin-top:10px; }
+button { width:100%; padding:12px; margin-top:10px; background:black; color:white; border:none; cursor:pointer; }
+button:hover { background:#333; }
+#result { margin-top:20px; padding:15px; background:#eee; border-radius:8px; }
+.good { background:#d4edda; color:#155724; padding:10px; border-radius:5px; }
+.needs { background:#f8d7da; color:#721c24; padding:10px; border-radius:5px; }
+#preview { margin-top:20px; border:1px solid #ccc; padding:10px; border-radius:5px; }
+label { display:block; margin-top:15px; }
 </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>Typography Analyzer123</h1>
-  <p>Enter a website URL to see typography recommendations</p>
+  <h1>Typography Analyzer321</h1>
+  <p>Enter a website URL to get typography recommendations</p>
 
   <input type="text" id="urlInput" placeholder="Enter website URL">
   <button onclick="analyze()">Analyze</button>
@@ -71,23 +45,29 @@ function analyze() {
   let url = document.getElementById("urlInput").value.trim();
   if (!url) { alert("Please enter a URL"); return; }
 
+  // Demo analīze pēc URL garuma → lai katrs URL rāda citādu rezultātu
+  const index = url.length % 5;
+
   const recommendations = [
-    {font:"Roboto", fontSize:16, lineHeight:1.5, contrast:"Good", notes:"Use consistent font sizes for headings and body."},
-    {font:"Times New Roman", fontSize:14, lineHeight:1.4, contrast:"Low", notes:"Increase font size and line-height for readability."},
-    {font:"Arial", fontSize:18, lineHeight:1.6, contrast:"Good", notes:"Font usage is consistent, keep headings distinguishable."},
-    {font:"Georgia", fontSize:15, lineHeight:1.5, contrast:"Low", notes:"Increase contrast between text and background."},
-    {font:"Open Sans", fontSize:17, lineHeight:1.6, contrast:"Good", notes:"Excellent typography, minor adjustments possible."}
+    {font:"Roboto", fontSize:16, lineHeight:1.5, contrast:"Good", notes:"Use consistent font sizes for headings and body.", status:"good"},
+    {font:"Times New Roman", fontSize:14, lineHeight:1.4, contrast:"Low", notes:"Increase font size and line-height for readability.", status:"needs"},
+    {font:"Arial", fontSize:18, lineHeight:1.6, contrast:"Good", notes:"Font usage is consistent, keep headings distinguishable.", status:"good"},
+    {font:"Georgia", fontSize:15, lineHeight:1.5, contrast:"Low", notes:"Increase contrast between text and background.", status:"needs"},
+    {font:"Open Sans", fontSize:17, lineHeight:1.6, contrast:"Good", notes:"Excellent typography, minor adjustments possible.", status:"good"}
   ];
 
-  const analysis = recommendations[Math.floor(Math.random()*recommendations.length)];
+  const analysis = recommendations[index];
 
   document.getElementById("result").innerHTML = `
-    <h3>Typography Analysis for ${url}</h3>
-    <p><b>Font family:</b> ${analysis.font}</p>
-    <p><b>Font size:</b> ${analysis.fontSize}px</p>
-    <p><b>Line height:</b> ${analysis.lineHeight}</p>
-    <p><b>Contrast:</b> ${analysis.contrast}</p>
-    <p><b>Recommendation:</b> ${analysis.notes}</p>
+    <div class="${analysis.status}">
+      <h3>Typography Analysis for ${url}</h3>
+      <p><b>Font family:</b> ${analysis.font}</p>
+      <p><b>Font size:</b> ${analysis.fontSize}px</p>
+      <p><b>Line height:</b> ${analysis.lineHeight}</p>
+      <p><b>Contrast:</b> ${analysis.contrast}</p>
+      <p><b>Recommendation:</b> ${analysis.notes}</p>
+      <p><b>Status:</b> ${analysis.status === 'good' ? '✅ Good typography' : '⚠️ Needs improvement'}</p>
+    </div>
   `;
 }
 
