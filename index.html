@@ -2,16 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Typography Analyzer Premium</title>
+<title>Typography Analyzer Pro</title>
 <style>
 body { font-family: Arial, sans-serif; background:#f5f5f5; margin:0; padding:0; }
-.container { max-width:900px; margin:auto; background:white; padding:30px; margin-top:50px; border-radius:10px; }
+.container { max-width:950px; margin:auto; background:white; padding:30px; margin-top:50px; border-radius:10px; }
 h1 { text-align:center; }
 input[type="text"], input[type="range"] { width:100%; padding:10px; margin-top:10px; }
 button { width:100%; padding:12px; margin-top:10px; background:black; color:white; border:none; cursor:pointer; font-size:16px; }
 button:hover { background:#333; }
 #result { margin-top:20px; }
-.analysis-box { padding:15px; border-radius:8px; margin-bottom:15px; color:white; }
+.analysis-box { padding:15px; border-radius:8px; margin-bottom:15px; color:white; box-shadow:0 2px 5px rgba(0,0,0,0.2);}
 .good { background:#28a745; }
 .needs { background:#dc3545; }
 #preview { margin-top:20px; border:1px solid #ccc; padding:10px; border-radius:5px; }
@@ -21,7 +21,7 @@ label { display:block; margin-top:15px; font-weight:bold; }
 <body>
 
 <div class="container">
-  <h1>Typography Analyzer Premium</h1>
+  <h1>Typography Analyzer Pro</h1>
   <p>Enter a website URL to get professional typography recommendations</p>
 
   <input type="text" id="urlInput" placeholder="Enter website URL">
@@ -42,24 +42,35 @@ label { display:block; margin-top:15px; font-weight:bold; }
 </div>
 
 <script>
+const recommendations = [
+  {font:"Roboto", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Use consistent font sizes for headings and body.", status:"good"},
+  {font:"Times New Roman", fontSize:14, lineHeight:1.4, contrast:"Low", spacing:"Tight", notes:"Increase font size and line-height for readability.", status:"needs"},
+  {font:"Arial", fontSize:18, lineHeight:1.6, contrast:"Good", spacing:"Normal", notes:"Font usage is consistent, keep headings distinguishable.", status:"good"},
+  {font:"Georgia", fontSize:15, lineHeight:1.5, contrast:"Low", spacing:"Tight", notes:"Increase contrast between text and background.", status:"needs"},
+  {font:"Open Sans", fontSize:17, lineHeight:1.6, contrast:"Good", spacing:"Normal", notes:"Excellent typography, minor adjustments possible.", status:"good"},
+  {font:"Lato", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Headings are clear, body text readable.", status:"good"},
+  {font:"Verdana", fontSize:15, lineHeight:1.5, contrast:"Low", spacing:"Tight", notes:"Increase line-height for better readability.", status:"needs"},
+  {font:"Merriweather", fontSize:18, lineHeight:1.7, contrast:"Good", spacing:"Normal", notes:"Good for long text, consider heading styles.", status:"good"},
+  {font:"PT Sans", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Consistent typography overall.", status:"good"},
+  {font:"Nunito", fontSize:17, lineHeight:1.6, contrast:"Low", spacing:"Normal", notes:"Consider better contrast for text and background.", status:"needs"},
+  {font:"Raleway", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Modern font, good readability.", status:"good"},
+  {font:"Ubuntu", fontSize:15, lineHeight:1.5, contrast:"Low", spacing:"Tight", notes:"Increase spacing for body text.", status:"needs"},
+  {font:"PT Serif", fontSize:17, lineHeight:1.6, contrast:"Good", spacing:"Normal", notes:"Great for headings and paragraphs.", status:"good"},
+  {font:"Source Sans Pro", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Font is readable and clean.", status:"good"},
+  {font:"Fira Sans", fontSize:16, lineHeight:1.5, contrast:"Low", spacing:"Tight", notes:"Consider increasing line height for readability.", status:"needs"},
+  {font:"Playfair Display", fontSize:18, lineHeight:1.6, contrast:"Good", spacing:"Normal", notes:"Elegant headings, keep body readable.", status:"good"},
+  {font:"Josefin Sans", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Stylish font, readable for body.", status:"good"},
+  {font:"Roboto Slab", fontSize:17, lineHeight:1.6, contrast:"Low", spacing:"Tight", notes:"Improve contrast and line spacing.", status:"needs"},
+  {font:"Comfortaa", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Readable headings and body.", status:"good"},
+  {font:"Quicksand", fontSize:16, lineHeight:1.5, contrast:"Good", spacing:"Normal", notes:"Light and clean font style.", status:"good"}
+];
+
 function analyze() {
   const url = document.getElementById("urlInput").value.trim();
   if(!url){ alert("Please enter a URL"); return; }
-
-  // Demo analīze: mainām pēc URL garuma
-  const idx = url.length % 5;
-  const recommendations = [
-    {font:"Roboto", fontSize:16, lineHeight:1.5, contrast:"Good", notes:"Use consistent font sizes for headings and body.", status:"good"},
-    {font:"Times New Roman", fontSize:14, lineHeight:1.4, contrast:"Low", notes:"Increase font size and line-height for readability.", status:"needs"},
-    {font:"Arial", fontSize:18, lineHeight:1.6, contrast:"Good", notes:"Font usage is consistent, keep headings distinguishable.", status:"good"},
-    {font:"Georgia", fontSize:15, lineHeight:1.5, contrast:"Low", notes:"Increase contrast between text and background.", status:"needs"},
-    {font:"Open Sans", fontSize:17, lineHeight:1.6, contrast:"Good", notes:"Excellent typography, minor adjustments possible.", status:"good"}
-  ];
-
-  const analysis = recommendations[idx];
-
-  const statusText = analysis.status === 'good' ? '✅ Good typography' : '⚠️ Needs improvement';
-
+  const index = url.length % recommendations.length;
+  const analysis = recommendations[index];
+  const statusText = analysis.status==='good'?'✅ Good typography':'⚠️ Needs improvement';
   document.getElementById("result").innerHTML = `
     <div class="analysis-box ${analysis.status}">
       <h3>Typography Analysis for ${url}</h3>
@@ -67,6 +78,7 @@ function analyze() {
       <p><b>Font size:</b> ${analysis.fontSize}px</p>
       <p><b>Line height:</b> ${analysis.lineHeight}</p>
       <p><b>Contrast:</b> ${analysis.contrast}</p>
+      <p><b>Letter spacing:</b> ${analysis.spacing}</p>
       <p><b>Recommendation:</b> ${analysis.notes}</p>
       <p><b>Status:</b> ${statusText}</p>
     </div>
