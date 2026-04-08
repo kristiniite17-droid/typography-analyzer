@@ -1,32 +1,61 @@
 function analyze() {
-  let url = document.getElementById("urlInput").value;
+  let url = document.getElementById("urlInput").value.trim();
   if (!url) {
     alert("Please enter a URL");
     return;
   }
 
-  // Simulēta analīze (demo)
-  const fonts = ["Arial", "Roboto", "Times New Roman", "Georgia", "Open Sans"];
-  const sizes = [14, 16, 18, 20, 22];
-  const weights = ["normal", "bold", "600"];
-  const lineHeights = [1.2, 1.5, 1.8];
+  // Simulēta analīze: dažādas rekomendācijas pēc URL
+  const recommendations = [
+    {
+      font: "Roboto",
+      fontSize: 16,
+      lineHeight: 1.5,
+      contrast: "Good",
+      notes: "Use consistent font sizes for headings and body."
+    },
+    {
+      font: "Times New Roman",
+      fontSize: 14,
+      lineHeight: 1.4,
+      contrast: "Low",
+      notes: "Increase font size and line-height for readability."
+    },
+    {
+      font: "Arial",
+      fontSize: 18,
+      lineHeight: 1.6,
+      contrast: "Good",
+      notes: "Font usage is consistent, keep headings distinguishable."
+    },
+    {
+      font: "Georgia",
+      fontSize: 15,
+      lineHeight: 1.5,
+      contrast: "Low",
+      notes: "Increase contrast between text and background."
+    },
+    {
+      font: "Open Sans",
+      fontSize: 17,
+      lineHeight: 1.6,
+      contrast: "Good",
+      notes: "Excellent typography, minor adjustments possible."
+    }
+  ];
 
-  // Random demo dati
-  const font = fonts[Math.floor(Math.random() * fonts.length)];
-  const size = sizes[Math.floor(Math.random() * sizes.length)];
-  const weight = weights[Math.floor(Math.random() * weights.length)];
-  const lineHeight = lineHeights[Math.floor(Math.random() * lineHeights.length)];
+  // Izvēlamies random rekomendāciju
+  const analysis = recommendations[Math.floor(Math.random() * recommendations.length)];
 
-  const resultHTML = `
+  // Parādām rezultātu
+  document.getElementById("result").innerHTML = `
     <h3>Typography Analysis for ${url}</h3>
-    <p><b>Font family:</b> ${font}</p>
-    <p><b>Font size:</b> ${size}px</p>
-    <p><b>Font weight:</b> ${weight}</p>
-    <p><b>Line height:</b> ${lineHeight}</p>
-    <p>Recommendation: Ensure consistent font usage, proper size, and readability across the site.</p>
+    <p><b>Font family:</b> ${analysis.font}</p>
+    <p><b>Font size:</b> ${analysis.fontSize}px</p>
+    <p><b>Line height:</b> ${analysis.lineHeight}</p>
+    <p><b>Contrast:</b> ${analysis.contrast}</p>
+    <p><b>Recommendation:</b> ${analysis.notes}</p>
   `;
-
-  document.getElementById("result").innerHTML = resultHTML;
 }
 
 // Typography Playground
