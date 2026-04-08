@@ -1,0 +1,9 @@
+function analyze() {
+  let url = document.getElementById("urlInput").value;
+
+  let fonts = Math.floor(Math.random() * 5) + 1;
+
+  document.getElementById("result").innerHTML = `
+    Fonts detected: ${fonts}
+  `;
+}
