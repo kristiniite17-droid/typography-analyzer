@@ -8,14 +8,27 @@
 <body>
 
 <div class="container">
-
   <h1>Typography Analyzer</h1>
+  <p>Analyze website typography and get recommendations</p>
 
   <input type="text" id="urlInput" placeholder="Enter website URL">
   <button onclick="analyze()">Analyze</button>
 
   <div id="result"></div>
 
+  <hr>
+
+  <h2>Typography Playground</h2>
+
+  <label>Font Size:</label>
+  <input type="range" min="12" max="40" value="18" id="fontSize">
+
+  <label>Line Height:</label>
+  <input type="range" min="1" max="2" step="0.1" value="1.5" id="lineHeight">
+
+  <p id="preview">
+    This is a typography preview text. Adjust settings to see changes.
+  </p>
 </div>
 
 <script src="script.js"></script>
